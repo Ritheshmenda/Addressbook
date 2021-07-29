@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace addressbook
+namespace AddressBook
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
-        {   
-                AddressDetails address = new AddressDetails("Rithesh", "Menda", "ganjimut,mangalore", "karnataka", 9741932439, 574144, "ritheshmenda123@gmail.com");
-                address.Contacts();
-         
-        }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Address { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Zip { get; set; }
+        public string Phonenumber { get; set; }
+        public string Mail { get; set; }
     }
 }
