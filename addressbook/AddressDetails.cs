@@ -17,6 +17,7 @@ namespace AddressBook
         const int mail = 8;
         const int display = 3;
         const int Exit = 0;
+        const int delete = 4;
         public static List<Program> list = new List<Program>();
         static void Main(string[] args)
         {
@@ -28,7 +29,8 @@ namespace AddressBook
                     "0.For exiting from address book\n" +
                 "1.For adding a contact\n" +
                 "2.For editing a contact\n" +
-                "3.For displaying the contact");
+                "3.For displaying the contact\n" +
+                "4.For deleting contact");
                 int choose = Convert.ToInt32(Console.ReadLine());
                 if (choose == Exit)
                 {
@@ -47,7 +49,9 @@ namespace AddressBook
                         {
                             address.Contactdisplay(person);
                         }
-                        Console.WriteLine(".....................................................");
+                        break;
+                    case delete:
+                        address.Deletecontact();
                         break;
                     default:
                         Console.WriteLine("wrong input enter another input");
@@ -86,15 +90,7 @@ namespace AddressBook
                 string searchname = Console.ReadLine();
                 if (item.Firstname == searchname)
                 {
-                    Console.WriteLine("What you want to edit\n" +
-                        "press 1 for firstname\n" +
-                        "press 2 for lastname\n" +
-                        "press 3 for address\n" +
-                        "press 4 for state\n" +
-                        "press 5 for city\n" +
-                        "press 6 for Zip\n" +
-                        "press 7 for phonenumber\n" +
-                        "press 8 for mail ");
+                    Console.WriteLine("What you want to edit\n" + "press 1 for firstname\n" + "press 2 for lastname\n" + "press 3 for address\n" + "press 4 for state\n" + "press 5 for city\n" + "press 6 for Zip\n" + "press 7 for phonenumber\n" + "press 8 for mail ");
                     int option = Convert.ToInt32(Console.ReadLine());
                     switch (option)
                     {
@@ -145,6 +141,25 @@ namespace AddressBook
                 EditContact();
             else
                 Console.WriteLine("Exited");
+
+        }
+        public void Deletecontact()
+        {
+            Program addressBook = new Program();
+            foreach (var item in list)
+            {
+                Console.WriteLine("enter the first name to search for the details");
+                string searchname = Console.ReadLine();
+                if (item.Firstname == searchname)
+                {
+
+                    list.Remove(item);
+                    Console.WriteLine("Contact deleted");
+                    break;
+                }
+
+
+            }
 
         }
     }
