@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AddressBook
 {
@@ -7,6 +8,9 @@ namespace AddressBook
     {
         const int add = 1;
         const int edit = 2;
+        const int display = 3;
+        const int Exit = 0;
+        const int delete = 4;
         const int firstname = 1;
         const int lastname = 2;
         const int address = 3;
@@ -15,22 +19,21 @@ namespace AddressBook
         const int zip = 6;
         const int phonenumber = 7;
         const int mail = 8;
-        const int display = 3;
-        const int Exit = 0;
-        const int delete = 4;
-        public static List<Program> list = new List<Program>();
-        static void Main(string[] args)
+        public static List<Contact> list = new List<Contact>();
+        public void Inputuser()
         {
-             AddressDetails address = new AddressDetails();
+            Console.WriteLine("Welcome to Address Book");
+            Program program = new Program();
+            AddressDetails adress = new AddressDetails();
             while (true)
             {
-                Program addressBook = new Program();
+                Contact addressBook = new Contact();
                 Console.WriteLine("enter the option for the proper action\n" +
-                    "0.For exiting from address book\n" +
-                "1.For adding a contact\n" +
-                "2.For editing a contact\n" +
-                "3.For displaying the contact\n" +
-                "4.For deleting contact");
+                    "0.for exiting from address book\n" +
+                "1.To add a contact\n" +
+                "2.To edit a contact\n" +
+                "3.To display the contacts\n" +
+                "4.To delete");
                 int choose = Convert.ToInt32(Console.ReadLine());
                 if (choose == Exit)
                 {
@@ -39,22 +42,23 @@ namespace AddressBook
                 switch (choose)
                 {
                     case add:
-                        address.AddDetails();
+                        adress.AddDetails();
                         break;
                     case edit:
-                        address.EditContact();
+                        adress.EditContact();
                         break;
                     case display:
                         foreach (var person in list)
                         {
-                            address.Contactdisplay(person);
+                            adress.Contactdisplay(person);
                         }
+                        Console.WriteLine(".....................................................");
                         break;
                     case delete:
-                        address.Deletecontact();
+                        adress.Deletecontact();
                         break;
                     default:
-                        Console.WriteLine("wrong input enter another input");
+                        Console.WriteLine("wrong input......enter another input");
                         break;
                 }
 
@@ -62,8 +66,8 @@ namespace AddressBook
         }
         public void AddDetails()
         {
-            Program addressbook = new Program();
-            Console.WriteLine("enter Firstname,LastName,Address,State,City,Zip,Phonenumber,Mail");
+            Contact addressbook = new Contact();
+            Console.WriteLine("enter Firstname,LastName,Adress,State,City,Zip,Phonenumber,Mail");
             addressbook.Firstname = Console.ReadLine();
             addressbook.Lastname = Console.ReadLine();
             addressbook.Address = Console.ReadLine();
@@ -73,24 +77,45 @@ namespace AddressBook
             addressbook.Phonenumber = Console.ReadLine();
             addressbook.Mail = Console.ReadLine();
             list.Add(addressbook);
+            Console.WriteLine("Wants to add more contact if yes press y or n");
+            char choice = Convert.ToChar(Console.ReadLine());
+            if (choice == 'Y' || choice == 'y')
+            {
+                foreach (var item in list)
+                {
+                    Console.WriteLine("enter the first name to add");
+                    string searchname = Console.ReadLine();
+                    if (item.Firstname == searchname)
+                    {
+                        Console.WriteLine("Contact already exist");
+                        break;
+                    }
+                    else
+                    {
+                        AddDetails();
+                    }
+                }
+            }
 
-        }
-        public void Contactdisplay(Program person)
-        {
-            Console.WriteLine("FirstName : " + person.Firstname + "\n" + "LastName : " + person.Lastname + "\n" + "Address : " + person.Address + "\n"
-                           + "State : " + person.State + "\n" + "City : " + person.City + "\n" + "Zip : " + person.Zip + "\n"
-                           + "PhoneNumber : " + person.Phonenumber + "\n" + "Mail Id : " + person.Mail);
         }
         public void EditContact()
         {
-            Program addressBook = new Program();
+            Contact addressBook = new Contact();
             foreach (var item in list)
             {
-                Console.WriteLine("Enter the first name to search for the details");
+                Console.WriteLine("enter the first name to search for the details");
                 string searchname = Console.ReadLine();
                 if (item.Firstname == searchname)
                 {
-                    Console.WriteLine("What you want to edit\n" + "press 1 for firstname\n" + "press 2 for lastname\n" + "press 3 for address\n" + "press 4 for state\n" + "press 5 for city\n" + "press 6 for Zip\n" + "press 7 for phonenumber\n" + "press 8 for mail ");
+                    Console.WriteLine("What you want to edit\n" +
+                        "press 1 for firstname\n" +
+                        "press 2 for LAstname\n" +
+                        "press 3 for address\n" +
+                        "press 4 for state\n" +
+                        "press 5 for city\n" +
+                        "press 6 for Zip\n" +
+                        "press 7 for phonenumber\n" +
+                        "press 8 for mail ");
                     int option = Convert.ToInt32(Console.ReadLine());
                     switch (option)
                     {
@@ -131,21 +156,24 @@ namespace AddressBook
                 }
                 else
                 {
-                    Console.WriteLine("Wrong input");
+                    Console.WriteLine("Name not found");
                 }
 
             }
             Console.WriteLine("Wants to edit any other details then press y or else n");
             char ch = Convert.ToChar(Console.ReadLine());
-            if (ch == 'y' || ch == 'n')
+            if (ch == 'y' || ch == 'Y')
                 EditContact();
             else
-                Console.WriteLine("Exited");
+                Console.WriteLine("bye");
 
         }
+        /// <summary>
+        /// method to delete the contact
+        /// </summary>
         public void Deletecontact()
         {
-            Program addressBook = new Program();
+            Contact addressBook = new Contact();
             foreach (var item in list)
             {
                 Console.WriteLine("enter the first name to search for the details");
@@ -155,12 +183,19 @@ namespace AddressBook
 
                     list.Remove(item);
                     Console.WriteLine("Contact deleted");
+                    Console.WriteLine("......................................");
                     break;
                 }
 
 
             }
 
+        }
+        public void Contactdisplay(Contact person)
+        {
+            Console.WriteLine("FirstName : " + person.Firstname + "\n" + "LastName : " + person.Lastname + "\n" + "Address : " + person.Address + "\n"
+                           + "State : " + person.State + "\n" + "City : " + person.City + "\n" + "Zip : " + person.Zip + "\n"
+                           + "PhoneNumber : " + person.Phonenumber + "\n" + "Mail Id : " + person.Mail);
         }
     }
 }
